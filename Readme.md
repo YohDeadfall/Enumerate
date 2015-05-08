@@ -1,5 +1,5 @@
 # Enumerate
-Enumerate is a murkup extension and a value converter which allow to bind to `Enum` properties in XAML.
+Enumerate is a murkup extension and a value converter which allow to bind to `Enum` properties in XAML. It also supports other types for which `TypeConverter.GetStandardValues()` returns a collection of standard values.
 
 ## Features
 
