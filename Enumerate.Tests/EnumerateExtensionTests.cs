@@ -74,8 +74,8 @@ namespace Enumerate.Tests
         public void ProvideValueUsingConverter()
         {
             CollectionAssert.AreEquivalent(
-                new string[] { Resources.Cat, Resources.Dog },
-                new EnumerateExtension(typeof(Animal)) { Converter = new AnimalToStringConverter() }.ProvideValue(null) as object[]
+                new string[] { Resources.Cat, Resources.Dog, Resources.NotSet },
+                new EnumerateExtension(typeof(Animal?)) { Converter = new AnimalToStringConverter() }.ProvideValue(null) as object[]
                 );
         }
 

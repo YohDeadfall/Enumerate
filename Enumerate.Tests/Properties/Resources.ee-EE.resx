@@ -123,4 +123,7 @@
   <data name="Dog" xml:space="preserve">
     <value>Koer</value>
   </data>
+  <data name="NotSet" xml:space="preserve">
+    <value>Pole seatud</value>
+  </data>
 </root>

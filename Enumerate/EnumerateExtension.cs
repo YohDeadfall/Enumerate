@@ -65,19 +65,22 @@ namespace Enumerate
             object[] items = (type == actualType)
                 ? new object[standardValues.Count]
                 : new object[standardValues.Count + 1];
-            IEnumerator standardValueEnumerator = standardValues.GetEnumerator();
+            int index = 0;
 
             if (converter == null)
             {
-                for (int i = 0; standardValueEnumerator.MoveNext(); i++)
-                { items[i] = standardValueEnumerator.Current; }
+                foreach (object standardValue in standardValues)
+                { items[index++] = standardValue; }
             }
             else
             {
                 CultureInfo culture = converterCulture ?? GetCulture(serviceProvider);
 
-                for (int i = 0; standardValueEnumerator.MoveNext(); i++)
-                { items[i] = converter.Convert(standardValueEnumerator.Current, typeof(object), converterParameter, culture); }
+                foreach (object standardValue in standardValues)
+                { items[index++] = converter.Convert(standardValue, typeof(object), converterParameter, culture); }
+
+                if (type != actualType)
+                { items[index] = converter.Convert(null, typeof(object), converterParameter, culture); }
             }
 
             return items;

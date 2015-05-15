@@ -77,5 +77,14 @@ namespace Enumerate.Tests.Properties {
                 return ResourceManager.GetString("Dog", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Set.
+        /// </summary>
+        internal static string NotSet {
+            get {
+                return ResourceManager.GetString("NotSet", resourceCulture);
+            }
+        }
     }
 }
