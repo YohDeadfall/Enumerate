@@ -46,11 +46,21 @@ namespace Enumerate
             { throw new InvalidOperationException(Resources.EnumTypeNotSet); }
 
             Type actualType = Nullable.GetUnderlyingType(type) ?? type;
-            TypeConverter typeConverter = TypeDescriptor.GetConverter(actualType);
-            ICollection standardValues = typeConverter.GetStandardValues();
+            TypeConverter typeConverter;
+            ICollection standardValues;
 
-            if (standardValues == null)
-            { return null; }
+            if ((typeConverter = TypeDescriptor.GetConverter(actualType)) == null ||
+                (standardValues = typeConverter.GetStandardValues(serviceProvider as ITypeDescriptorContext)) == null)
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        Resources.TypeHasNoStandardValues,
+                        type
+                        ),
+                    "value"
+                    );
+            }
 
             object[] items = (type == actualType)
                 ? new object[standardValues.Count]
@@ -80,35 +90,8 @@ namespace Enumerate
         [ConstructorArgument("type")]
         public Type Type
         {
-            get
-            {
-                return type;
-            }
-            set
-            {
-                if (value == null)
-                { throw new ArgumentNullException("value"); }
-
-                if (value != type)
-                {
-                    Type actualType = Nullable.GetUnderlyingType(value) ?? value;
-                    TypeConverter converter = TypeDescriptor.GetConverter(actualType);
-
-                    if (converter == null || !converter.GetStandardValuesSupported())
-                    {
-                        throw new ArgumentException(
-                            string.Format(
-                                CultureInfo.CurrentCulture,
-                                Resources.TypeHasNoStandardValues,
-                                actualType
-                                ),
-                            "value"
-                            );
-                    }
-
-                    type = value;
-                }
-            }
+            get { return type; }
+            set { type = value; }
         }
 
         public IValueConverter Converter
